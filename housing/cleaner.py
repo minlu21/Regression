@@ -20,4 +20,21 @@ house = pd.read_csv('xinyi_scraped.csv')
    
 """
 
+# Dropped useful column
 house = house.drop(['Unnamed: 0'], axis=1)
+
+# Parse out region from 'Address'
+house['Region'] = house['Address'].str.slice(3, 6)
+
+# Remove chinese character from 'Age' and convert column to 'float64'
+# print(house['Age'].unique())
+house['Age'] = house['Age'].replace('預售', np.NaN).replace('--', np.NaN)
+house['Age'] = house['Age'].str.replace('年', '')
+house['Age'] = house['Age'].astype('float64')
+
+
+print(house.columns)
+print()
+print(house.dtypes)
+print()
+print(house.head())
