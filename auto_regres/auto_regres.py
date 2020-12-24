@@ -8,6 +8,7 @@ auto.columns = ['Symboling', 'NormLosses', 'Make', 'Fuel-Type', 'Aspiration', 'N
 # Replace missing data with np.nan [x]
 # Check for validity of data in every column. [x]
 # Convert to correct datatypes [x]
+# Encode nominal features [x]
 
 auto = auto.replace('?', np.nan)
 
@@ -37,7 +38,15 @@ for column in auto.columns:
         auto[column] = auto[column].fillna(round(auto[column].mean(), 2))
     if auto[column].dtype == 'int':
         auto[column] = auto[column].fillna(auto[column].mode())
-    print(auto[column].unique())
-    print()
+    # print(auto[column].unique())
+    # print()
 
-# Encoding nominal features - 'Make', 'Fuel-Type', 'Aspiration',
+# Encoding nominal features - 'Make', 'Fuel-Type', 'Aspiration', 'Body-Style', 'Drive-wheels', 'EngineLoc', 'EngineType', 'FuelSys'
+dummied = pd.get_dummies(auto[['Make', 'Fuel-Type', 'Aspiration', 'Body-Style',
+                               'Drive-Wheels', 'EngineLoc', 'EngineType', 'FuelSys']], drop_first=True)
+print(dummied)
+
+cleaned_auto = pd.concat([auto, dummied], axis=1)
+cleaned_auto = cleaned_auto.drop(
+    ['Make', 'Fuel-Type', 'Aspiration', 'Body-Style', 'Drive-Wheels', 'EngineLoc', 'EngineType', 'FuelSys'], axis=1)
+print(cleaned_auto.columns)
