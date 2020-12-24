@@ -36,6 +36,8 @@ for column in auto.columns:
     if auto[column].dtype == 'float64':
         auto[column] = auto[column].fillna(round(auto[column].mean(), 2))
     if auto[column].dtype == 'int':
-        auto[column] = auto[column].fillna(round(auto[column].mean(), 0))
+        auto[column] = auto[column].fillna(auto[column].mode())
     print(auto[column].unique())
     print()
+
+# Encoding nominal features - 'Make', 'Fuel-Type', 'Aspiration',
